@@ -1,0 +1,338 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage[authoryear,round]{natbib}
+\usepackage{setspace}
+\usepackage[hidelinks]{hyperref}
+
+\captionsetup{font=small,labelfont=bf}
+\setstretch{1.15}
+\newcommand{\Kstar}{K^{*}}
+
+\title{\textbf{Option Expirations and the Closing Price}\\[4pt]
+\large Delta hedging, pinning and closing-auction prices in US equities, 2016--2025}
+\author{Luca Dennert\\[2pt]
+\small MSc in Finance, Universit\`a Bocconi\\
+\small Essay for 21048 Market Structure and Information-Based Models (Prof.\ Barbara Rindi)}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent US equity options settle on the closing-auction price, so dealers' delta hedging on expiration days flows into the most important price of the day. Using 7.6 million stock-days from 2016 to 2025 and expiring open interest from OptionMetrics, I measure hedging pressure as the dollar gamma of expiring options relative to normal dollar volume and compare stocks on the same day. High expiring gamma raises the probability of closing within 0.25\% of the max-open-interest strike by 4.5 percentage points ($t=8.3$), reduces the size of the closing-price move by about 45\%, and leaves no overnight reversal. The pattern matches hedging by dealers who are net long gamma, which supplies rather than consumes liquidity at the close. The 2022 introduction of daily SPX expirations has no robust effect on constituents' closes. The evidence does not support moving single-stock option settlement away from the close.
+\end{abstract}
+
+\section{Introduction}
+
+Does the hedging of expiring options distort the most important price of the trading day? The closing auction sets the price used for fund valuations, index levels and benchmarks, and it is also the price on which US equity options settle. On an expiration day, dealers who sold or bought those options must rebalance their stock hedges, and much of that rebalancing reaches the close. If the flow is large relative to the liquidity in the auction, the closing price could move away from fundamental value precisely when the most money depends on it.
+
+This essay takes the question to 7.6 million stock-days of US common stocks between 2016 and 2025, combining CRSP prices with expiring open interest from OptionMetrics. The design follows the closing-auction analysis of \citet{ComertonFordeRindi2022}, which asks whether large closing-price changes are price discovery or temporary dislocation, and the pinning evidence of \citet{NiPearsonPoteshman2005}. The new element is a measure of hedging pressure, \emph{gamma intensity}: the dollar gamma of the options that expire on a given day relative to the stock's normal dollar volume. Comparing stocks with high and low gamma intensity on the same day removes everything that affects all stocks on expiration Fridays.
+
+Three findings stand out. First, closing prices are pulled towards the strike with the largest expiring open interest: the highest-gamma expirations close within 0.25\% of that strike 4.5 percentage points more often than the lowest-gamma ones on the same day. Second, the hedging makes closing prices calmer, not more volatile: the closing-price move of high-gamma stocks is about 45\% smaller than on their other Fridays. Third, nothing reverses: the movement towards the strike persists into the next open, and closing moves in general reverse less on expiration days. The daily SPX expirations added in 2022 show no robust effect on S\&P~500 constituents.
+
+Together the results point to dealers who are net long gamma and who, by hedging, supply liquidity at the close. The analysis relies only on daily data; Section~\ref{sec:limits} discusses what intraday data would add.
+
+\section{Institutional background}
+
+\paragraph{The closing auction sets the most-used price of the day.} On NYSE and Nasdaq, continuous trading ends at 16:00 ET with a call auction (the NYSE closing auction and the Nasdaq Closing Cross). The resulting official closing price is the benchmark for fund NAVs, index levels and performance measurement, and closing auctions now account for more than 10\% of US equity volume \citep{HuMurphy2026}.
+
+\paragraph{Equity options settle on that price.} Single-stock options are American-style and physically settled. At expiration, exercise is decided by whether the option is in the money at the close, so the closing price of the expiration day determines which contracts become stock positions. Standard monthly contracts expire on the third Friday; weekly contracts on many underlyings expire on the other Fridays. When the Friday is a market holiday, expiration moves to Thursday.
+
+\paragraph{Index options use two settlement conventions.} Monthly S\&P~500 (SPX) options are AM-settled, on a special opening quotation of the third Friday. SPX Weeklys (SPXW) are PM-settled at the close. Before 2022, SPXW expired on Mondays, Wednesdays and Fridays. Cboe added Tuesday expirations from 18 April 2022 and Thursday expirations from 11 May 2022, so that an SPX contract now expires at the close of every trading day \citep{Cboe2022}.
+
+\paragraph{Option dealers hedge their delta in the underlying.} A market maker who is long gamma must sell the stock when it rises and buy when it falls; a short-gamma dealer does the opposite. Gamma is largest for near-the-money contracts close to expiration, so on an expiration day the hedging flow for strikes near the current price can be large relative to normal volume. Much of this rebalancing can be executed at the close, through market-on-close orders that interact with the auction.
+
+\section{Theory and hypotheses}
+
+\paragraph{Hedging flow is uninformed but predictable order flow, and a call auction prices it.} In a batch-clearing market in the spirit of \citet{Kyle1985}, the clearing price moves with net order flow because liquidity suppliers cannot tell informed from uninformed demand. Delta-hedging orders carry no information about fundamentals, yet they arrive in the closing auction in size and in a predictable direction. Absent enough competing liquidity, they move the closing price away from its efficient value, and the move should reverse once the pressure is gone. This is the dislocation-versus-discovery distinction that \citet{ComertonFordeRindi2022} apply to closing auctions.
+
+\paragraph{The sign of the dealer's gamma decides the direction of the pressure.} Models of stock pinning \citep{AvellanedaLipkin2003} show that delta hedging by long-gamma market makers pushes the price towards strikes with large open interest: they sell above the strike and buy below it. Short-gamma dealers trade with the move and push the price away from the strike. \citet{NiPearsonPoteshman2005} find that optionable US stocks cluster at strike prices on expiration Fridays, and attribute the effect mainly to the hedging of market makers who are net long options. \citet{GarleanuPedersenPoteshman2009} show that end users are on average net short single-stock options, which leaves dealers net long. The baseline prediction for single stocks is therefore attraction towards strikes.
+
+\paragraph{Testable predictions.}
+\begin{enumerate}
+\item[\textbf{H1}] \textbf{(Attraction.)} On a stock's expiration day, the closing price moves towards the strike with the largest expiring open interest, and more so when expiring gamma is large relative to the stock's normal dollar volume.
+\item[\textbf{H2}] \textbf{(Placebo.)} No comparable attraction appears towards the strike grid of the next expiration on Fridays when the stock has no options expiring.
+\item[\textbf{H3}] \textbf{(Dislocation.)} The part of the closing move driven by hedging reverses overnight: the next-day open undoes part of it, more so on expiration days with high gamma.
+\item[\textbf{H4}] \textbf{(Index expirations.)} When SPX options began to expire at the close on Tuesdays and Thursdays in 2022, closing-price dislocation of S\&P~500 members rose on those days relative to comparable non-members and to other weekdays.
+\end{enumerate}
+
+\section{Data and variable construction}
+
+\paragraph{Sample.} The sample covers 7.59 million stock-days of 6,245 US common stocks from January 2016 to 29 August 2025. The end date is the last day of OptionMetrics on WRDS. Stock data come from the CRSP v2 daily file: ordinary common shares of US-incorporated firms listed on NYSE, Nasdaq or NYSE American, with a previous close above \$5. Option data come from OptionMetrics IvyDB US and are matched to CRSP through the WRDS link table (best-quality matches only). The sample contains 504 expiration dates and 422,889 stock-expiration observations, of which 283,526 are standard (monthly) and 139,363 weekly expirations.
+
+\paragraph{Expiring open interest.} For every stock and expiration date I take all contracts that expire that day. OptionMetrics reports open interest with a one-day lag, so the figure on the expiration date is the open interest at the previous close, the position dealers carry into the expiration day. The \emph{max-OI strike} $\Kstar$ is the strike with the largest combined call and put open interest.
+
+\paragraph{Gamma intensity.} OptionMetrics leaves gamma missing on the expiration day and often on the day before, so I recompute Black--Scholes gamma with one trading day to expiry ($T=1/252$), the previous close and the contract's implied volatility (the median at-the-money volatility when the contract's own is missing). Expiring dollar gamma is
+\begin{equation}
+\mathrm{DG}_{i,t} = \sum_{j} \Gamma_{j}\times \mathrm{OI}_{j}\times 100\times S_{i,t-1}^{2}\times 0.01,
+\end{equation}
+the dollar value of shares a hedger trades for a 1\% move. Gamma intensity divides it by the stock's average daily dollar volume over the previous 20 days. Its median is 0.9\% of daily volume and its 90th percentile 4.9\%. Regressions use its percentile rank within each expiration date, from 0 to 1, so that the coefficient compares the highest- to the lowest-gamma expirations of the same day.
+
+\paragraph{Outcomes.} The \emph{closing-price move} is the auction-return proxy $\log(P^{\text{close}}/M)$, where $M$ is the midpoint of CRSP's closing bid and ask (Section~\ref{sec:limits} and Appendix~\ref{app:proxy} discuss its validity). The \emph{overnight return} is $\log(P^{\text{open}}_{t+1}/P^{\text{close}}_{t})$, the reversal measure of \citet{ComertonFordeRindi2022}. \emph{Pinning} is measured by whether the close lies within 0.10\% or 0.25\% of $\Kstar$. Returns are expressed in basis points and winsorised at the 1st and 99th percentiles. The CRSP closing price is the auction price itself: \citet{BogousslavskyMuravyev2023} find that it equals the closing-auction price in 99.99\% of observations from 2014.
+
+\paragraph{Data that are not available.} WRDS at Bocconi does not include TAQ, and LSEG Tick History is not available for this project. The essay therefore observes the official closing price and the next open exactly, but not the intraday quotes just before the auction, the auction volume or the order imbalance. It also does not observe who holds the options, so the sign of dealer positions is inferred rather than measured.
+
+\section{Empirical design}
+
+\paragraph{Identification.} Third Fridays coincide with futures expiration, index rebalancing and other events that move all closing prices together. Identification therefore comes from differences across stocks on the same day, not from comparing expiration days with other days. Every regression includes date fixed effects, which absorb anything common to a given day, and stock fixed effects, which absorb a stock's average liquidity. Standard errors are clustered by stock and by date.
+
+\paragraph{Baseline specification.} The estimating sample is the set of Fridays, plus Thursdays when an expiration falls on them. On each such day a stock either has options expiring (treated) or not: it may have no listed options, or only monthly options in a week without a monthly expiration. The baseline specification is
+\begin{equation}
+y_{i,t} = \beta_1\,\mathrm{Exp}_{i,t} + \beta_2\,\mathrm{Exp}_{i,t}\times \mathrm{GammaRank}_{i,t} + \gamma' X_{i,t} + \alpha_i + \delta_t + \varepsilon_{i,t},
+\end{equation}
+where $\mathrm{Exp}_{i,t}$ is one when stock $i$ has options expiring on day $t$, $\mathrm{GammaRank}_{i,t}$ is the percentile rank of gamma intensity among that day's expiring stocks, and $X_{i,t}$ holds log market capitalisation, log dollar volume, the closing half-spread and 20-day return volatility. The coefficient $\beta_2$ measures how much the outcome differs between the highest- and lowest-gamma expirations of the same day.
+
+\paragraph{Placebo strike.} For treated stock-days $\Kstar$ is the max-OI strike of the expiring contracts. For untreated Fridays of optionable stocks it is the max-OI strike of the \emph{next} expiration, a strike of the same kind that carries no expiring hedge. The pinning sample is restricted to stock-days whose previous close lies within 2\% of $\Kstar$ (1\% in a robustness check), so that both groups start equally close to a strike.
+
+\paragraph{SPX triple difference.} For 2021 to mid-2023, Monday to Thursday, the test compares S\&P~500 members with optionable non-members above \$2 billion of market capitalisation, Tuesdays and Thursdays with Mondays and Wednesdays (which already had SPX expirations), before and after the 2022 introduction. A placebo moves the introduction date back by one year.
+
+\section{Results}
+
+\subsection{Descriptive statistics}
+
+Stocks with expiring options are larger and more liquid than the rest of the sample (Table~\ref{tab:desc}), which is why all tests rely on stock and date fixed effects.
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{Descriptive statistics, Fridays and expiration Thursdays}
+\label{tab:desc}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+ & Stock-days & Stocks & $|$Closing move$|$ & $|$Overnight$|$ & Half-spread & Mkt cap \\
+ & & & (bp) & (bp) & (bp, median) & (\$bn, median) \\
+\midrule
+Options expiring that day & 422,889 & 4,680 & 6.3 & 81.8 & 2.4 & 4.49 \\
+Optionable, none expiring & 840,216 & 4,526 & 8.0 & 77.0 & 3.9 & 1.74 \\
+No listed options & 310,334 & 3,267 & 40.8 & 100.0 & 37.4 & 0.18 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item Sample: CRSP common stocks, January 2016 -- 29 August 2025, previous close above \$5. Means unless stated.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Pinning (H1 and H2)}
+
+Figure~\ref{fig:pin} shows the raw pattern. In the top quintile of gamma intensity, 12.8\% of closes land within 0.25\% of $\Kstar$, against 9.6\% in the bottom quintile and 9.7\% for the placebo strike. Table~\ref{tab:pin} confirms it with fixed effects. Moving from the lowest- to the highest-gamma expiration of the same day raises the probability of closing within 0.25\% of $\Kstar$ by 4.5 percentage points, almost half of the placebo rate. Low-gamma expirations show no attraction at all; their coefficient is slightly negative.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.92\textwidth]{figures/pinning_by_gamma.pdf}
+\caption{Share of expiration-day closes within 0.25\% of the max-OI strike, by quintile of gamma intensity. Stocks whose previous close was within 2\% of $\Kstar$. The dashed line is the placebo rate: Fridays without expiring options, using the next expiration's max-OI strike (117,737 stock-days). Labels under the bars give the median expiring dollar gamma as a percentage of 20-day average dollar volume.}
+\label{fig:pin}
+\end{figure}
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{Pinning at the max-OI strike (percentage points)}
+\label{tab:pin}
+\small
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{Previous close within 1\%} & \multicolumn{2}{c}{Previous close within 2\%} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Close within & 0.10\% & 0.25\% & 0.10\% & 0.25\% \\
+\midrule
+Options expiring & $-1.2$ & $-0.9$ & $-1.0$ & $-0.9$ \\
+ & $(-2.6)$ & $(-1.5)$ & $(-3.3)$ & $(-2.5)$ \\
+Expiring $\times$ GammaRank & \textbf{2.0} & \textbf{3.4} & \textbf{2.8} & \textbf{4.5} \\
+ & $(3.3)$ & $(4.2)$ & $(7.0)$ & $(8.3)$ \\
+\midrule
+Placebo rate & 5.6\% & 12.7\% & 4.3\% & 9.7\% \\
+Stock-days & 105,894 & 105,894 & 204,619 & 204,619 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item Linear probability models with stock and date fixed effects; controls: closing half-spread and 20-day volatility. $t$-statistics in parentheses, standard errors clustered by stock and date.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+The effect holds for standard monthly expirations (6.0 pp, $t=8.6$) and, more weakly, for weekly ones (2.4 pp, $t=2.9$), and it is similar in 2016--2019 (5.1 pp, $t=5.9$) and 2020--2025 (4.3 pp, $t=6.1$). The attraction builds up over the trading day: the reduction in the distance to $\Kstar$ between the previous close and the close has the predicted sign (5.1 bp closer for top-gamma stocks) but is not significant ($t=-1.6$), and the part measured by the auction proxy alone is close to zero ($t=-1.2$).
+
+\subsection{Size of closing-price moves}
+
+High expiring gamma makes closing prices calmer, not more volatile (Table~\ref{tab:mag}). With stock and date fixed effects, a stock with options expiring has an absolute closing move 1.8~bp smaller than on its other Fridays, and the highest-gamma expirations a further 1.0~bp smaller. Against an average of 6.3~bp for expiring stocks, the combined effect is a reduction of about 45\%. Absolute overnight returns are 4.1~bp larger after expirations, with no gradient in gamma.
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{Size of closing-price moves and overnight returns (basis points)}
+\label{tab:mag}
+\small
+\begin{tabular}{lcc}
+\toprule
+ & $|$Closing move$|$ & $|$Overnight return$|$ \\
+\midrule
+Options expiring & $-1.82$ & 4.06 \\
+ & $(-7.4)$ & $(2.9)$ \\
+Expiring $\times$ GammaRank & $-0.96$ & $-2.04$ \\
+ & $(-3.0)$ & $(-1.2)$ \\
+Log market cap & $-2.82$ & $-8.39$ \\
+ & $(-9.6)$ & $(-9.4)$ \\
+Log dollar volume & $-2.17$ & 2.54 \\
+ & $(-12.2)$ & $(4.2)$ \\
+Half-spread (bp) & 0.08 & 0.20 \\
+ & $(5.1)$ & $(14.0)$ \\
+20-day volatility & 32.97 & 297.47 \\
+ & $(6.8)$ & $(8.5)$ \\
+\midrule
+Stock-days & 1,572,602 & 1,544,562 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item Stock and date fixed effects; $t$-statistics in parentheses, standard errors clustered by stock and date.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Overnight reversals (H3)}
+
+Closing moves are partly transitory in general, but less so on expiration days (Table~\ref{tab:rev}). On non-expiration Fridays the overnight return undoes 58\% of the closing move measured by the proxy, in line with the 35--62\% reversals that \citet{ComertonFordeRindi2022} report for London. On expiration days the reversal is 9 percentage points smaller. The movement towards $\Kstar$ is not reversed at all: the overnight return in the direction of the strike is unrelated to the size of that movement. H3 is therefore rejected: the hedging-related part of the closing price looks permanent rather than a dislocation.
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{Overnight reversals}
+\label{tab:rev}
+\small
+\begin{tabular}{lccc}
+\toprule
+Dependent variable & Overnight return & Overnight return & Overnight return \\
+ & & & towards $\Kstar$ \\
+Regressor $x$ & Closing move & Close-to-close & Move towards $\Kstar$ \\
+\midrule
+$x$ & $-0.583$ & $-0.013$ & 0.003 \\
+ & $(-65.9)$ & $(-4.0)$ & $(0.6)$ \\
+$x\times$ Options expiring & 0.093 & 0.012 & 0.004 \\
+ & $(2.8)$ & $(2.0)$ & $(0.5)$ \\
+$x\times$ Expiring $\times$ GammaRank & 0.062 & 0.022 & 0.011 \\
+ & $(1.0)$ & $(3.2)$ & $(0.9)$ \\
+\midrule
+Stock-days & 1,545,227 & 1,545,227 & 204,550 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item All regressions include the expiration indicator, its interaction with GammaRank, and stock and date fixed effects. Column 3 uses stock-days whose previous close lies within 2\% of $\Kstar$. $t$-statistics in parentheses, standard errors clustered by stock and date.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{SPX Tuesday and Thursday expirations (H4)}
+
+The triple difference finds a small rise in the absolute closing move of S\&P~500 members on Tuesdays and Thursdays after 2022, 0.16~bp on a base of 2.2~bp, and no change in overnight returns (Table~\ref{tab:spx}). The placebo that moves the introduction back to April 2021 produces an estimate of the same size. The result therefore cannot be attributed to the new expirations, and H4 finds no support.
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{SPX Tuesday and Thursday expirations: triple difference (basis points)}
+\label{tab:spx}
+\small
+\begin{tabular}{lccc}
+\toprule
+ & $|$Closing move$|$ & $|$Overnight return$|$ & $|$Closing move$|$ \\
+ & 2021--2023 & 2021--2023 & Placebo (2020--2022) \\
+\midrule
+S\&P 500 $\times$ Tue/Thu $\times$ Post & 0.16 & $-0.87$ & 0.19 \\
+ & $(2.0)$ & $(-0.4)$ & $(1.8)$ \\
+S\&P 500 $\times$ Post & 0.47 & 2.60 & 0.22 \\
+ & $(6.1)$ & $(1.6)$ & $(3.0)$ \\
+S\&P 500 $\times$ Tue/Thu & $-0.07$ & 1.66 & $-0.22$ \\
+ & $(-1.3)$ & $(1.0)$ & $(-2.2)$ \\
+\midrule
+Stock-days & 738,400 & 738,274 & 644,551 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item Monday--Thursday, optionable stocks: S\&P~500 members vs.\ non-members above \$2bn market capitalisation. Post: from the first Tuesday (26 April 2022) and Thursday (19 May 2022) SPXW expirations; placebo uses 19 April 2021. Controls as in Table~\ref{tab:mag}; stock and date fixed effects; $t$-statistics in parentheses, standard errors clustered by stock and date.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{Robustness and limitations}
+\label{sec:limits}
+
+\paragraph{The closing-move measure is a proxy, and its main risk is noise rather than bias.} The ideal benchmark is the midpoint just before the auction. CRSP's closing bid and ask are close to it: on the one day of TAQ data available at Bocconi (13 February 2009) they equal the last NBBO before 16:00 for 82\% of Nasdaq stocks and the last NYSE quote before 16:00 for 64\% of NYSE stocks, and the NBBO after 16:00 for under 1\% of Nasdaq and NYSE stocks (Appendix~\ref{app:proxy}). Measurement error in the dependent variable lowers power, which may explain why the auction-only part of the attraction towards $\Kstar$ is not significant. It does not create the overnight reversal mechanically, because the next-open return does not use the closing quotes. The proxy is not adjusted for the half-spread, unlike \citet{ComertonFordeRindi2022}, so part of the general reversal is bid-ask bounce; the comparison between expiration and other days is unaffected, since both carry it.
+
+\paragraph{The sign of dealer positions is inferred, not observed.} The data show open interest but not who is long or short. The pattern of results (attraction towards strikes, smaller closing moves, no reversal) is what long-gamma hedging predicts and the opposite of what short-gamma hedging predicts, which is consistent with the evidence that dealers are net long single-stock options. It is an inference from prices, not a measurement.
+
+\paragraph{Other choices.}
+\begin{itemize}
+\item Gamma is a Black--Scholes approximation with one trading day to expiry. Strikes with no implied volatility and no at-the-money volatility to impute from are left out of dollar gamma; in 2016 they are on average 13\% of a stock's expiring strikes. This understates gamma intensity for thinly traded option classes.
+\item Index rebalancing is absorbed by date fixed effects when it affects all stocks. Stock-specific index additions and deletions that fall on expiration days are not removed.
+\item The tests use the max-OI strike only; a model with the full open-interest profile could sharpen the pinning measure.
+\item Auction volume, order imbalance and quotes inside the last minutes of trading are not observed. With them, the analysis could separate the auction from the final minutes of continuous trading and replicate the volume regression of \citet{ComertonFordeRindi2022}.
+\end{itemize}
+
+\section{Market-design implications}
+
+\paragraph{The evidence does not support moving single-stock option settlement away from the close.} One argument for AM settlement, as used for monthly SPX options, is that it keeps hedging flows out of the most important price of the day. For single stocks in 2016--2025, expiring gamma makes closing prices calmer and the moves it causes do not reverse overnight. The hedging flow behaves like liquidity supply concentrated at the close, which is what a call auction is designed to aggregate.
+
+\paragraph{Pinning is a cost for some investors, not a dislocation.} A stock that closes at a strike leaves holders of near-the-money options exposed to exercise and assignment uncertainty over the weekend. That is a contract-design issue, which exchanges address through exercise rules and strike spacing, rather than a reason to change the auction.
+
+\paragraph{Daily index expirations have not measurably worsened the close.} The 2022 Tuesday and Thursday SPX expirations left the closing-price moves of S\&P~500 constituents unchanged once a placebo date is used. Concerns about ever more frequent expirations should therefore focus on index futures and ETF flows, which this essay does not measure, rather than on constituent auctions.
+
+\paragraph{The conclusions are averages and depend on dealers being long gamma.} Episodes in which end users buy options in size, such as retail call buying in 2021, can turn dealers short gamma, and the same mechanism would then amplify closing moves. Publishing the expected hedging imbalance before the close, as auction imbalance feeds already do for orders, would let other liquidity suppliers lean against it.
+
+\section{Conclusion}
+
+Option expirations leave a clear mark on US closing prices, but it is the mark of stabilising rather than distorting hedging. Across 423,000 stock-expirations from 2016 to 2025, high expiring gamma raises the probability of closing within 0.25\% of the max-OI strike by 4.5 percentage points, shrinks the closing-price move of the highest-gamma expirations by about 45\%, and produces no overnight reversal of the attraction towards the strike. This is what delta hedging by long-gamma dealers predicts. The 2022 daily SPX expirations show no robust effect on constituents' closes.
+
+The main limitation is the absence of intraday data. With quotes, trades and auction imbalances around 16:00, the same design could separate the auction from the last minutes of continuous trading, replicate the volume regression of \citet{ComertonFordeRindi2022} exactly, and measure dealer positions directly from signed option volume.
+
+\bibliographystyle{apalike}
+\bibliography{refs}
+
+\appendix
+\section{Validation of the closing-quote proxy}
+\label{app:proxy}
+
+CRSP's closing bid and ask behave like quotes taken just before the auction, not after it. Table~\ref{tab:proxy} compares them with TAQ quotes on 13 February 2009, the only day of millisecond TAQ data available to Bocconi users on WRDS. A single day in 2009 cannot prove that the relation holds after 2016, when quote sources and timestamps changed. The proxy should therefore be read as a noisy measure of the auction move, and the results that rest on it (Tables~\ref{tab:mag} and~\ref{tab:rev}) as less precise than the pinning results, which use the official close only.
+
+\begin{table}[ht]
+\centering
+\begin{threeparttable}
+\caption{CRSP closing quotes vs.\ TAQ quotes, 13 February 2009}
+\label{tab:proxy}
+\small
+\begin{tabular}{lrccc}
+\toprule
+Listing exchange & Stocks & Last NBBO & Last primary-exchange & Last NBBO \\
+ & & before 16:00 & quote before 16:00 & after 16:00 \\
+\midrule
+Nasdaq & 2,698 & 82.3\% & -- & 0.5\% \\
+NYSE & 1,566 & 39.7\% & 64.2\% & 0.4\% \\
+NYSE American & 334 & 65.6\% & -- & 14.7\% \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item Share of stocks whose CRSP closing bid and ask both equal the stated TAQ quote.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{Data construction and checks}
+
+\begin{itemize}
+\item \textbf{Link.} OptionMetrics security identifiers are matched to CRSP PERMNOs through the WRDS link table, keeping matches with the highest score and the validity dates of each link.
+\item \textbf{Price check.} The underlying price in OptionMetrics on the day before each expiration equals the CRSP close within 0.5\% in essentially 100\% of stock-expirations in every year.
+\item \textbf{Calendar check.} All expirations fall on Fridays except the Thursdays before Good Friday and Independence Day holidays.
+\item \textbf{Missing data.} The closing midpoint is missing for under 0.1\% of stock-days and the next-day open for 1--4\%.
+\item \textbf{Replication.} The code in the accompanying repository rebuilds every table and figure from the raw WRDS tables.
+\end{itemize}
+
+\end{document}
