@@ -41,6 +41,22 @@ Three findings stand out. First, closing prices are pulled towards the strike wi
 
 Together the results point to dealers who are net long gamma and who, by hedging, supply liquidity at the close. The analysis relies only on daily data; Section~\ref{sec:limits} discusses what intraday data would add.
 
+\subsection*{Related literature}
+
+The results are consistent with the existing evidence and extend it to the period of weekly and daily options.
+
+\paragraph{Stock pinning.} \citet{AvellanedaLipkin2003} show in a model that delta hedging of large long-option positions can pin the price at the strike. \citet{NiPearsonPoteshman2005} document that optionable US stocks cluster at strike prices on expiration Fridays in 1996--2002, and attribute it to market makers' re-hedging and to manipulation by proprietary traders. This essay finds the same attraction in 2016--2025 and ties its strength to a continuous measure of expiring gamma.
+
+\paragraph{The sign of dealer positions.} \citet{GolezJackwerth2012} find that S\&P~500 futures are pulled towards the at-the-money strike when options on the futures expire, but pushed away from it before S\&P~500 index options expire, where market makers are net short. The direction of the effect depends on dealers' net gamma, the same logic used here to read the single-stock results as long-gamma hedging.
+
+\paragraph{Daily expirations and volatility.} \citet{DimErakerVilkov2024} find no evidence that the gamma of zero-day (0DTE) S\&P~500 options raises index volatility, and \citet{Adams0DTE} find that 0DTEs dampen it through market makers' hedging needs. Calmer closes on high-gamma expiration days are the stock-level counterpart of that result, and the absence of an SPX Tuesday/Thursday effect is consistent with it.
+
+\paragraph{Settlement on the open.} \citet{BaltussenTersteggeWhelan2025} show that the opening settlement price of AM-settled S\&P~500 derivatives on third Fridays exceeds the previous close by about 18~bp and reverts during the day, which they attribute to dealers' hedging. Moving settlement to the open therefore does not remove hedging pressure; it moves it to a thinner market.
+
+\paragraph{Closing auctions.} \citet{ComertonFordeRindi2022} test whether large closing-price changes are discovery or dislocation; \citet{BogousslavskyMuravyev2023} and \citet{HuMurphy2026} study who trades at the close and how it affects closing prices. This essay applies their reversal test to the specific flow that expiring options bring to the auction.
+
+The contribution is therefore not a new phenomenon but a cleaner test of an old one: a same-day comparison across stocks with gamma intensity and date fixed effects, the closing-auction reversal test, and the 2022 SPX expirations as an additional experiment.
+
 \section{Institutional background}
 
 \paragraph{The closing auction sets the most-used price of the day.} On NYSE and Nasdaq, continuous trading ends at 16:00 ET with a call auction (the NYSE closing auction and the Nasdaq Closing Cross). The resulting official closing price is the benchmark for fund NAVs, index levels and performance measurement, and closing auctions now account for more than 10\% of US equity volume \citep{HuMurphy2026}.
@@ -280,7 +296,7 @@ Stock-days & 738,400 & 738,274 & 644,551 \\
 
 \section{Market-design implications}
 
-\paragraph{The evidence does not support moving single-stock option settlement away from the close.} One argument for AM settlement, as used for monthly SPX options, is that it keeps hedging flows out of the most important price of the day. For single stocks in 2016--2025, expiring gamma makes closing prices calmer and the moves it causes do not reverse overnight. The hedging flow behaves like liquidity supply concentrated at the close, which is what a call auction is designed to aggregate.
+\paragraph{The evidence does not support moving single-stock option settlement away from the close.} One argument for AM settlement, as used for monthly SPX options, is that it keeps hedging flows out of the most important price of the day. For single stocks in 2016--2025, expiring gamma makes closing prices calmer and the moves it causes do not reverse overnight. The hedging flow behaves like liquidity supply concentrated at the close, which is what a call auction is designed to aggregate. Opening settlement is not free of hedging pressure either: \citet{BaltussenTersteggeWhelan2025} find that the SPX opening settlement price on third Fridays is about 18~bp above the previous close and then reverts.
 
 \paragraph{Pinning is a cost for some investors, not a dislocation.} A stock that closes at a strike leaves holders of near-the-money options exposed to exercise and assignment uncertainty over the weekend. That is a contract-design issue, which exchanges address through exercise rules and strike spacing, rather than a reason to change the auction.
 
