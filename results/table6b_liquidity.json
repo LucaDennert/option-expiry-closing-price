@@ -1,0 +1,35 @@
+{
+ "B_optionable_date_x_liquidity": {
+  "nobs": 1235409,
+  "params": {
+   "expx": -0.0858,
+   "exp_gir": -0.3909
+  },
+  "t": {
+   "expx": -1.25,
+   "exp_gir": -4.15
+  }
+ },
+ "B_optionable_date_x_liquidity_nocontrols": {
+  "nobs": 1235483,
+  "params": {
+   "expx": -0.078,
+   "exp_gir": -1.3414
+  },
+  "t": {
+   "expx": -0.86,
+   "exp_gir": -12.13
+  }
+ },
+ "B_optionable_date_x_liqdec_within_optionable": {
+  "nobs": 1235409,
+  "params": {
+   "expx": -0.0875,
+   "exp_gir": -0.4014
+  },
+  "t": {
+   "expx": -1.22,
+   "exp_gir": -4.12
+  }
+ }
+}

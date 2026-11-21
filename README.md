@@ -9,11 +9,14 @@ normal dollar volume and compares stocks on the same day (stock and date fixed e
 
 **Main results**
 
-- High expiring gamma raises the probability of closing within 0.25% of the max-open-interest strike by
-  4.5 pp (t = 8.3), against a placebo rate of 9.7%.
-- Closing-price moves of high-gamma stocks are about 45% smaller than on their other Fridays.
-- The attraction towards the strike does not reverse overnight.
-- The 2022 Tuesday/Thursday SPX expirations have no robust effect on S&P 500 constituents' closes.
+- Closes cluster at the max-open-interest strike. With controls for the starting distance to the strike
+  (10-bp bins x volatility terciles), the open-interest gradient of the probability of closing within 0.25%
+  of the strike is 3.6 pp steeper on expiration days than for a placebo strike that does not expire
+  (t = 6.1); the placebo gradient itself is negative.
+- Among optionable stocks, high expiring gamma makes the closing move 0.4-0.9 bp smaller. Having options
+  expire has no effect on its own once size and liquidity are controlled for.
+- Closing moves reverse overnight by 43-58% on all types of day, with no extra reversal on expiration days.
+- The test of the 2022 Tuesday/Thursday SPX expirations is matched by its placebo and is uninformative.
 
 The paper is in [`paper/main.pdf`](paper/main.pdf).
 
@@ -25,16 +28,19 @@ code/
   02_build_expiries.py     open interest by strike, Black-Scholes gamma, max-OI strike per expiration
   03_build_panel.py        stock-day panel: closing-move proxy, overnight return, gamma intensity
   04_checks.py             data checks (Appendix B)
-  05_analysis.py           Tables 1-5 and data for Figure 1
+  05_analysis.py           first-pass results (Tables 1, 2, 5, 6) and data for Figure 1
   06_proxy_validation.py   CRSP closing quotes vs TAQ, 13 Feb 2009 (Appendix A)
   07_figure.py             Figure 1
+  08_robustness.py         pinning with starting-distance controls and OI-based placebo gradient (Table 3),
+                           size/liquidity checks (Table 4), total reversal slopes with CIs
+  08b_liquidity.py         Table 4, columns with date x liquidity-decile effects among optionable stocks
 results/                   estimation output (aggregate statistics only)
 paper/                     LaTeX source, bibliography, figure and compiled PDF
 ```
 
 ## Replication
 
-1. Run `code/01_extract.py` to `code/05_analysis.py` on the WRDS cloud (they read and write `~/essay_data/`).
+1. Run `code/01_extract.py` to `code/05_analysis.py`, then `08_robustness.py` and `08b_liquidity.py`, on the WRDS cloud (they read and write `~/essay_data/`).
    Step 1 takes about one hour; the rest a few minutes.
 2. Copy `~/essay_data/results/*` into `results/`, then run `python code/07_figure.py`.
 3. Compile the paper: `cd paper && latexmk -pdf main.tex`.
